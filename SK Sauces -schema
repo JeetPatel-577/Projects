@@ -1,0 +1,240 @@
+  PROJECT  -  SK SAUSES																	
+  PURPOSE  -  This database schema is designed to manage cutomer, orders and production activities to																	
+               record and track all activities occuring for efficient working of the company.																	
+  AUTHOR   -  Jeet Patel																	
+  DATE     -  20 SEPTEMBER 2025																	
+  REVISION -  1																	
+********************************************************************************************************************************																	
+    SL         CREATED BY                   DETAILS                   REMARKS                   DATE																	
+    1           JEET PATEL               FRESH TABLES            TABLES DEVELOPMENT        20 SEPT 2025 														
+********************************************************************************************************************************/																	
+																																
+  use master																	
+																	
+  create database SKSauses																	
+ 																													
+  use SKSauses																	
+																	
+																	
+ -- CREATE CUSTOMERS TABLE																	
+																	
+ create table customers																	
+ ( 																	
+	Cust_ID				int				          primary key,				
+	Cust_Name			varchar(40)		not null,											
+	Cust_Add			varchar(50)		not null,											
+	Cust_City			varchar(50)		not null,											
+	Cust_PH				char(10)		unique,										
+	Cust_Email			varchar(50)		null		  unique,							
+ )																	
+																	
+    select*from customers																	
+																	
+    -- INSERTING DATA IN TO CUSTOMERS																	
+																	
+ insert into customers (Cust_ID,Cust_Name,Cust_Add,Cust_City,Cust_PH,Cust_Email)values																	
+ (1,'shreya patel','124 king st','toronto','9057845647','shreya@yahoo.com'),																	
+ (2,'tom alter','86 jsc st','toronto','9053564756','tom@rogers.com'),																	
+ (3,'harry koi','3456 cribco mall','whitby','6474816372','har@gmail.com'),																	
+ (4,'mary singh','234 roll crt','brampton','4163456723','marykom@tellus.com'),																	
+ (5,'jack paul','43 jackal st','mississauga','4377845452','jackpaul56@gmail.com'),																	
+ (6,'pat jones','790 bathurstst','toronto','9058935697','patti@yahoo.com'),																	
+ (7,'abdel mohammed','6757 baker rd','vaughn','4167996734','am@rogers.com'),																	
+ (8,'kim jong','5 addey crt','brampton','6479805647','kimj@gmail.com'),																	
+ (9,'satin singh','990 mavis rd','mississauga','4169982447','satsingh@yahoo.com'),																	
+ (10,'yu zing','111 colonel cirlce','milton','4376734519','yu@yahoo.com')																	
+																	
+																	
+  select*from customers																	
+																																
+																	
+ create table products																	
+ (																	
+    Prod_ID             char(12)                           primary key, 							
+    Prod_Name           varchar(50)         not null       unique,										
+    ProdIntro_Date      date                not null,													
+    ProdCFIA_date       date                not null,													
+    Shelf_Life          tinyint             not null       check(Shelf_Life>0)								
+ )																	
+ 																	
+																	
+  insert into products (Prod_ID,Prod_Name,ProdIntro_Date,ProdCFIA_date,Shelf_Life ) values																	
+  ('KD01CS','kd cheddar sauce','2023-04-12','2023-05-10', 180),																	
+  ('KD02CHS','chilly soy sauce','2023-06-07','2023-09-22',90),																	
+  ('KD03PS','kd pasta sauce','2023-11-15','2023-12-18',180),																	
+  ('KD04HIC','hot indian chutney','2024-02-19','2024-03-10',60),																	
+  ('KD05MSS','mild salsa sauce','2024-03-10','2024-04-19',90),																	
+  ('KD06MHS','maxican hot sauce','2024-04-09','2024-05-16',60)																	
+ 																	
+																	
+  select*from products																	
+																	
+																	
+																	
+ --CREATE ORDERS TABLE																	
+																	
+   create table Orders																	
+ (																	
+    Order_ID         int                             primary key,   						
+    Prod_ID          char(12)       not null         foreign key references products (Prod_ID),								
+    Cust_ID          int            not null         foreign key  references customers (Cust_ID),							
+    Order_date       date           not null,												
+    Dispat_date      date           not null,												
+    Order_Qty        int            not null         check(Order_Qty > 0),							
+    Unit_Cost        money          not null,												
+   )																	
+
+        select*from orders															
+	
+	
+    update orders
+    set Order_Qty = 2400
+    where Order_ID = 10
+																	
+  insert into Orders (Order_ID, Prod_ID, Cust_ID, Order_date, Dispat_date, Order_Qty, Unit_Cost) values 																	
+  (1,'KD05MSS',2,'2024-05-24','2024-05-27',1200,10),																	
+  (2,'KD02CHS',10,'2024-06-01','2024-06-02',2000,5),																	
+  (3,'KD01CS',5,'2024-06-04','2024-06-06',1700,11),																	
+  (4,'KD06MHS',10,'2024-06-12','2024-06-17',2300,7),																	
+  (5,'KD04HIC',8,'2024-06-20','2024-06-21',600,12),																	
+  (6,'KD03PS',7,'2024-06-27','2024-06-29',3200,6),																	
+  (7,'KD05MSS',2,'2024-07-01','2024-07-03',1700,10),																	
+  (8,'KD01CS',6,'2024-07-04','2024-07-05',500,15),																	
+  (9,'KD05MSS',3,'2024-07-10','2024-07-15',1500,10),																	
+  (10,'KD02CHS',9,'2024-07-18','2024-07-21',22000,5),																	
+  (11,'KD01CS',1,'2024-07-25','2024-07-30',1100,11),																	
+  (12,'KD06MHS',10,'2024-08-03','2024-08-09',2300,7),																	
+  (13,'KD04HIC',8,'2024-08-11','2024-08-14',600,12),																	
+  (14,'KD03PS',7,'2024-08-17','2024-08-22',3200,6),																	
+  (15,'KD05MSS',5,'2024-08-17','2024-08-28',1700,10),																	
+  (16,'KD01CS',6,'2024-09-04','2024-09-06',300,15),																	
+  (17,'KD05MSS',9,'2024-09-09','2024-09-12',1600,10),																	
+  (18,'KD02CHS',3,'2024-09-14','2024-09-18',1400,5),																	
+  (19,'KD01CS',5,'2024-09-22','2024-09-26',1700,11),																	
+  (20,'KD06MHS',10,'2024-09-28','2024-10-02',2500,7),																	
+  (21,'KD04HIC',6,'2024-09-28','2024-10-03',1600,12),																	
+  (22,'KD03PS',7,'2024-10-04','2024-10-10',3200,11),																	
+  (23,'KD05MSS',2,'2024-10-11','2024-10-15',700,10),																	
+  (24,'KD01CS',6,'2024-10-17','2024-10-19',500,15),																	
+  (25,'KD06MHS',1,'2024-10-21','2024-10-25',1900,9)		
+  
+  begin tran
+   insert into Orders (Order_ID, Prod_ID, Cust_ID, Order_date, Dispat_date, Order_Qty, Unit_Cost) values 
+  (26,'KD02CHS',4,'2024-11-01','2024-11-07',1400,7),																	
+  (27,'KD01CS',6,'2024-11-10','2024-11-17',950,12),																	
+  (28,'KD06MHS',10,'2024-11-19','2024-11-23',1800,8),																	
+  (29,'KD04HIC',8,'2024-11-27','2024-12-02',1100,10),																	
+  (30,'KD03PS',7,'2024-12-06','2024-12-12',3100,7),																	
+  (31,'KD05MSS',5,'2024-12-16','2024-12-21',1500,11),																	
+  (32,'KD01CS',6,'2024-12-28','2024-12-31',370,14),																	
+  (33,'KD05MSS',10,'2025-01-03','2025-01-07',1000,11),																	
+  (34,'KD02CHS',3,'2025-01-11','2025-01-15',900,12),																	
+  (35,'KD01CS',5,'2025-01-17','2025-01-22',2000,9)																	
+ 	commit														
+																	
+	select*from orders																
+																	
+ 																	
+ 																	
+ --CREATE PRODUCTION TABLES																	
+    create table Production																	
+  (																	
+      Production_No        int                              primary key,					
+      Order_id             int            not null          foreign key references Orders(Order_ID), 					
+      Prod_id              char(12)       not null          foreign key references products (Prod_ID),							
+      Cust_id              int            not null          foreign key references customers (Cust_ID),						
+      Prod_date            date           not null,											
+      Prod_qty             int            not null,									 
+  )																	
+		
+	update Production															
+	set Prod_qty = 2400
+	where Order_id =10
+																	
+insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qty) values																	
+																	
+  (1,1,'KD05MSS',2,'2024-05-26',1200),																	
+  (2,2,'KD02CHS',10,'2024-06-02',2000),																	
+  (3,3,'KD01CS',5,'2024-06-05',1700),																	
+  (4,4,'KD06MHS',10,'2024-06-15',2300),																	
+  (5,5,'KD04HIC',8,'2024-06-21',600),																	
+  (6,6,'KD03PS',7,'2024-06-29',3200),																	
+  (7,7,'KD05MSS',2,'2024-07-02',1700),																	
+  (8,8,'KD01CS',6,'2024-07-04',500),																	
+  (9,9,'KD05MSS',3,'2024-07-12',1500),																	
+  (10,10,'KD02CHS',9,'2024-07-19',22000),																	
+  (11,11,'KD01CS',1,'2024-07-27',1100),																	
+  (12,12,'KD06MHS',10,'2024-08-05',2300),																	
+  (13,13,'KD04HIC',8,'2024-08-12',600),																	
+  (14,14,'KD03PS',7,'2024-08-19',3200),																	
+  (15,15,'KD05MSS',5,'2024-08-25',1700),																	
+  (16,16,'KD01CS',6,'2024-09-05',300),																	
+  (17,17,'KD05MSS',9,'2024-09-10',1600),																	
+  (18,18,'KD02CHS',3,'2024-09-16',1400),																	
+  (19,19,'KD01CS',5,'2024-09-23',1700),																	
+  (20,20,'KD06MHS',10,'2024-09-29',2500),																	
+  (21,21,'KD04HIC',6,'2024-10-01',1600),																	
+  (22,22,'KD03PS',7,'2024-10-07',3200),																	
+  (23,23,'KD05MSS',2,'2024-10-14',700),																	
+  (24,24,'KD01CS',6,'2024-10-17',500),																	
+  (25,25,'KD06MHS',1,'2024-10-22',1900)																	
+	
+	begin tran
+insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qty) values
+(26,26,'KD02CHS',4,'2024-11-05',1400),																	
+  (27,27,'KD01CS',6,'2024-11-13',950),																	
+  (28,28,'KD06MHS',10,'2024-11-20',1800),																	
+  (29,29,'KD04HIC',8,'2024-11-29',1100),																	
+  (30,30,'KD03PS',7,'2024-12-07',3100),																	
+  (31,31,'KD05MSS',5,'2024-12-17',1500),																	
+  (32,32,'KD01CS',6,'2024-12-29',370),																	
+  (33,33,'KD05MSS',10,'2025-01-04',1000),																	
+  (34,34,'KD02CHS',3,'2025-01-13',900),																	
+  (35,35,'KD01CS',5,'2025-01-18',2000)	
+  commit
+  select*from production
+
+ /************************************************************************************************************************************
+ 1. list product and customer names who have ordered more than 1000 units in August of 2024.
+    list with the the highest amount of units ordered.
+****************************************************************************************************************************/
+	select Cust_Name, Prod_Name, sum(order_qty) as [total qty]
+	from 
+	customers as ca join Orders as od
+	on ca.Cust_ID = od.Cust_ID
+	join products as pd
+	on pd.Prod_ID = od.Prod_ID
+	where datepart(yy,Order_date)= 2024 and datename(mm,Order_date) = 'august'
+	group by Cust_Name, Prod_Name
+	having sum(Order_Qty) >1000
+	order by [total qty] desc
+	----------------------------------------------------------------
+	|	Cust_Name		|		Prod_Name			|	total qty	|
+	-----------------------------------------------------------------
+	|	abdel mohammed	|		kd pasta sauce		|		3200	|
+	|	yu zing			|		maxican hot sauce	|		2300	|
+	|	jack paul		|		mild salsa sauce	|		1700	|
+	-----------------------------------------------------------------
+
+/****************************************************************************************************************************
+  2. How much qty was ordered month wise in year 2024?
+*************************************************************************************************************************/
+	select*from orders
+
+	select  datename(mm,order_date) as [month Name],sum (order_qty) as [total qty] 
+	from orders
+	where order_date between '2024-01-01' and  '2024-12-31'
+	group by  datename(mm,order_date),datepart(mm,order_date)
+	order by datepart(mm,order_date) asc
+	---------------------------------
+	|	month Name	|	total qty	|
+	---------------------------------
+	|	May			|		1200	|
+	|	June		|		9800	|
+	|	July		|		7200	|
+	|	August		|		7800	|
+	|	September	|		9100	|
+	|	October		|		6300	|
+	|	November	|		5250	|
+	|	December	|		4970	|
+    ----------------------------------
