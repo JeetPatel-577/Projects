@@ -1,0 +1,396 @@
+/*************************************************************************************************************
+Project Name: Bandhan Bank 
+Module      : Loans Module
+Purpose     : The Bandhan Bank database schema is designed to manage customer, loan, branch, group, payment, 
+              and insurance data for efficient banking operations and reporting
+Created by  : Jeet Patel, Vikas Patel (Group project)
+Date        : June 3th, 2025
+
+****************************************************************************************************************
+SLNO     Created By              Details              Remarks                Date
+----------------------------------------------------------------------------------------------------------------
+1        Jeet Patel            Fresh Tables      Tables Development      JUNE 3, 2025
+2        Vikas Patel        Added new tables        Modified              jUNE 5, 2025
+****************************************************************************************************************/
+--creating a database bhandhan_bank --
+Use master
+
+Create Database Bandhan_Bank
+
+--using bandhan_bank database--
+
+use Bandhan_Bank
+
+
+
+/*********************************************************************************************************************
+Create a Branch table.
+********************************************************************************************************************/
+
+Create Table Branch
+( 
+    BRID           Char(12)                            Primary Key,
+    Branch_Name    Varchar(20)        Not Null,
+    Branch_add     Varchar(100)       Not Null,
+    Branch_city    Varchar(30)        Not Null
+)
+
+select*from branch
+
+--inserting data into table branch--
+insert into Branch (BRID,Branch_Name,Branch_add,Branch_city) values
+    ('BR1', 'AMD', 'Kankariya', 'Ahmedabad'),
+    ('BR2', 'MAN', 'Maninagar', 'Ahmedabad'),
+    ('BR3', 'NAD', 'Santram', 'Nadiad'),
+    ('BR4', 'AND', 'East Mall', 'Anand'),
+    ('BR5', 'VAD', 'Karolibag', 'Baroda')
+
+/**********************************************************************************************************************
+ Create Table Groups
+*********************************************************************************************************************/
+
+Create Table Groups 
+(
+    GroupID        Char(10)                        Primary Key,
+    GroupName      Varchar(20)      Not Null
+)
+
+select*from groups
+
+ -- inserting data to groups--
+ INSERT INTO Groups (GroupID, GroupName) VALUES
+('BL', 'Business Loan Group'),
+('EL', 'Education Loan Group'),
+('HL', 'Housing Loan Group'),
+('AL', 'Auto loan Group'),
+('PL', 'Personal Loan Group')
+
+
+
+/*********************************************************************************************************************
+Create a Customers table 
+**********************************************************************************************************************/
+
+Create Table Customers
+(
+    Cust_ID          Int                              Primary Key,
+    BRID             Char(12)          Not Null       Foreign Key References Branch(BRID),
+    Cust_FstName     Varchar(20)       Not Null,
+    Cust_LstName     Varchar(20)       Not Null,
+    Cust_DoB         Date              Not Null,
+    Cust_Add         Varchar(100)      Not Null,
+    Cust_City        Varchar(40)       Not Null,
+    Cust_State       Varchar(40)       Not Null,
+    Cust_PinCode     char(15)          Not Null,
+    Cust_PhNum       Char(11)          Not Null,
+    Cust_AODate      Datetime          Not Null,
+    Group_ID         Char(10)          Not Null        Foreign Key References Groups(GroupID)	
+)
+
+select*from Customers
+
+INSERT INTO Customers (
+    Cust_ID, BRID, Cust_FstName, Cust_LstName, Cust_DoB,
+    Cust_Add, Cust_City, Cust_State, Cust_PinCode,
+    Cust_PhNum, Cust_AODate, Group_ID) VALUES
+(1, 'BR1', 'Kushal', 'Patel', '1985-03-12', '56, Gandhi chowk', 'Ahmedabad', 'Gujarat', 380075, '9836820493', '2023-06-10', 'HL'),
+(2, 'BR1', 'Herni', 'Patel', '1988-10-22', '80, silver stone Colony', 'Anand', 'Gujarat', 387525, '9990784272', '2023-08-15', 'PL'),
+(3, 'BR2', 'Bharat', 'Cokshi', '1991-05-03', '1455, NGO Colony', 'Maninagar', 'Gujarat', 388001, '989584303e3', '2024-01-18', 'BL'),
+(4, 'BR2', 'Vikas', 'Patel', '1969-01-02', '124, Allegro Street', 'Pij', 'Gujarat', 380070, '9963738382', '2024-03-20', 'HL')
+
+update Customers
+set cust_phnum =9874578867
+where cust_id=3
+
+Begin tran
+INSERT INTO Customers (
+    Cust_ID, BRID, Cust_FstName, Cust_LstName, Cust_DoB,
+    Cust_Add, Cust_City, Cust_State, Cust_PinCode,
+    Cust_PhNum, Cust_AODate, Group_ID) VALUES
+(5, 'BR3', 'Raghu', 'Teja', '1992-10-25', '11, Gandhi Nagar','  Nadiad', 'Gujarat', 384001, '9905379200', '2023-04-05', 'AL'),
+(6, 'BR3', 'Bhavani', 'Devi', '1993-03-15', '9, RTC Colony', 'Sunav', 'Gujarat', 524002, '9448583266', '2025-04-18','EL'),
+(7, 'BR1', 'Naveen', 'Chowdary', '1987-08-14', '33, Alipiri', 'Tirupati', 'Maharastra', 517503, '9446764577', '2023-05-01','EL'),
+(8, 'BR4', 'Padma', 'Rani', '1989-06-22', '14, Kothapeta', 'Nanded', 'Madya Pradesh',587654,'8947464780', '2023-05-15', 'BL'),
+(9, 'BR4', 'Srinivas', 'Goud', '1990-11-11', '778, Revenue', 'Anand', 'Gujarat', 384003, '7484738988', '2023-06-01', 'PL'),
+(10, 'BR2', 'Anusha', 'Kumari', '1995-01-30', '96, Tilak Road', 'Baroda', 'Gujarat', 397504, '9489600010', '2023-06-20', 'HL'),
+(11, 'BR5', 'Pradeep', 'Varma', '1996-02-17', '9, Tirumala Hills', 'Maninagar', 'Gujarat', 517505, '9446773011', '2023-07-05','PL'),
+(12, 'BR5', 'Sunitha', 'Rao', '1986-04-25', '133, Kuppam Road', 'Sunav', 'Gujarat', 567004, '9448648001', '2023-07-15','AL'),
+(13, 'BR4', 'Vamsi', 'Krishna', '1992-12-01', '1-78, Jayalakshmi Nagar', 'Baroda', 'Gujarat', 894004, '6735468913', '2023-08-01', 'BL'),
+(14, 'BR3', 'Sandhya', 'Bai', '1993-05-23', '212, Dargamitta', 'Anand', 'Gujarat', 674005, '9735467014', '2023-08-10','AL'),
+(15, 'BR1', 'Bharath', 'Raj', '1988-09-29', '55, KT Road', 'Nadiad', 'Gujarat', 787506, '9449373600', '2023-08-25', 'EL'),
+(16, 'BR2', 'Meena', 'Jaya', '1994-11-13', '18, Madanapalle Road', 'Maninagar', 'Gujarat', 537005, '9734847656', '2023-09-02','BL'),
+(17, 'BR4', 'Rakesh', 'Raju', '1991-06-07', '3-51, Vedayapalem', 'Ahmedabad','Gujarat', 864006, '2344354707', '2023-09-15','HL'),
+(18, 'BR1', 'Kavitha', 'Sri', '1995-08-08', '712, Bhavani Nagar', 'Baroda', 'Gujarat', 787507, '9050567600', '2023-10-01', 'PL'),
+(19, 'BR5', 'Rajesh', 'Yadav', '1993-03-19', '80-45, Palamaner Road',  'Baroda', 'Gujarat', 897006, '8468001974', '2023-10-12','AL'),
+(20, 'BR5', 'Lavanya', 'Kiran', '1992-07-05', '988, Santhapet', 'Anand', 'Gujarat', 784007, '8393098720', '2023-10-25', 'EL')
+commit
+
+update customers 
+set Cust_AODate= '2023-04-18'
+where Cust_ID=6
+
+update customers 
+set Cust_AODate= '2023-01-18'
+where Cust_ID=3
+
+update customers 
+set Cust_AODate= '2023-03-20'
+where Cust_ID=4
+
+select*from Customers
+
+/*********************************************************************************************************************************
+Create a LoanTypes table.
+**********************************************************************************************************************************/
+
+Create Table LoanTypes 
+(
+    LoanType_ID		Tinyint			        Primary  Key,
+    LoanType_Name	Varchar(50)	    Not Null
+)
+
+select *from LoanTypes
+
+INSERT INTO LoanTypes (LoanType_ID, LoanType_Name)
+VALUES 
+(1, 'Fixed Term, 5 Year'),
+(2, 'Fixed Term, 3 Year'),
+(3, 'Variable, 3 Year')
+
+update loanTypes
+set LoanType_Name = 'Variable,2 year'
+where LoanType_ID = 3
+
+
+/**********************************************************************************************************************************
+Creates a Loans table; stores loan details including customer, type, amount, interest, tenure, dates, and status.
+*********************************************************************************************************************************/
+
+Create Table Loans
+(
+    Loan_ID          Int                                                    Primary Key
+    Cust_ID          Int            Not Null          Foreign Key References Customers(Cust_ID),
+    LoanType_ID      Tinyint        Not Null          Foreign Key References LoanTypes(LoanType_ID),
+    LoanPrin_Amt     Money          Not Null          Check (LoanPrin_Amt > 0),
+    Loan_ROI         Money          NOT NULL          Check  (Loan_ROI >= 0 AND Loan_ROI <= 20),
+    Tenure_InMonths  Int            Not Null          Check (Tenure_InMonths > 0),
+    Loan_StartDate   Date           Not Null,
+    Loan_EndDate     Date           Not Null ,
+    Loan_Amt         Money          Not Null,
+    Loan_Status      Varchar(10)    NullCheck           (Loan_Status IN ('Active', 'Closed'))  DEFAULT 'Active'
+)
+
+select*from Loans
+
+INSERT INTO Loans (
+    Loan_ID, Cust_ID, LoanType_ID, LoanPrin_Amt, Loan_ROI,
+    Tenure_InMonths, Loan_StartDate, Loan_EndDate, Loan_Amt, Loan_Status
+)
+VALUES
+(1, 1, 2, 110000, 12.5, 36, '2024-01-01', '2026-12-31', 57500, 'Active'),
+(2, 2, 1, 30000, 10.0, 60,  '2024-02-01', '2029-01-31', 31500, 'Active'),
+(3, 3, 3, 100000, 13.5, 24, '2024-03-01', '2026-02-28', 127000, 'Active'),
+(4, 4, 1, 100000, 11.0, 60, '2024-01-15', '2029-01-14', 27750, 'Active'),
+(5, 5, 2, 40000, 9.5, 36,   '2024-02-10', '2027-02-09', 41900, 'Active'),
+(6, 6, 3, 75000, 14.0, 24, '2024-03-15', '2026-03-14', 89125, 'Active'),
+(7, 7, 1, 60000, 12.0, 60, '2024-04-01', '2029-03-31', 67200, 'Active'),
+(8, 8, 2, 35000, 10.0, 36,  '2024-05-01', '2027-04-30', 36750, 'Active'),
+
+(9, 9, 3, 85000, 13.0, 24, '2024-06-01', '2026-05-31', 110300, 'Closed'),
+(10,10,1, 20000, 11.5, 60, '2024-07-01', '2029-06-30', 22300, 'Active'),
+(11,11,2, 45000, 9.0, 36,   '2024-01-05', '2027-01-04', 47025, 'Active'),
+(12,12,3, 90000, 15.0, 24, '2024-02-05', '2026-02-04', 112500, 'Closed'),
+(13,13,1, 55000, 11.0, 60, '2024-03-10', '2029-03-09', 61100, 'Active'),
+
+(14,14,2, 38000, 10.5, 36,  '2024-04-10', '2027-04-09', 40095, 'Active'),
+(15,15,3, 95000, 13.5, 24, '2024-05-10', '2026-05-09', 120650, 'Active'),
+(16,16,1, 30000, 10.0, 60, '2024-06-10', '2029-06-09', 33000, 'Active'),
+(17,17,2, 27000, 9.0, 36,   '2024-07-10', '2027-07-09', 28215, 'Active'),
+(18,18,3, 80000, 14.0, 24, '2024-08-10', '2026-08-09', 100800, 'Active'),
+
+(19,19,1, 65000, 12.0, 60, '2024-09-10', '2029-09-09', 72800, 'Active'),
+(20,20,2, 32000, 10.0, 36,  '2024-10-10', '2026-10-09', 33600, 'Closed')
+
+
+
+/**********************************************************************************************************************************
+Created EMP table to store employee details including ID, name, designation, and phone number.
+***********************************************************************************************************************************/
+
+Create Table Emp
+(
+    Emp_ID          Int                          Primary Key,
+    Emp_Name        Varchar(20)      Not Null,
+    Emp_Desig       Varchar(20)      Not Null,
+    Emp_PhNo        Char(11)         Not Null
+)
+
+select*from emp
+
+INSERT INTO EMP (Emp_ID, Emp_Name, Emp_Desig, Emp_PhNo) VALUES
+(1, 'Pravin', 'Clerk', '9876543210'),
+(2, 'Alpa', 'Cashier', '9123456789'),
+(3, 'Raju', 'Loan Officer', '9988776655'),
+(4, 'Sunil', 'Accountant', '9012345678'),
+(5, 'Kumar', 'Branch Manager', '9876501234'),
+(6, 'Lalita', 'Assistant Manager', '9876123456'),
+(7, 'Hina', 'Cashier', '9123987654'),
+(8, 'Swathy', 'Clerk', '9988123456');
+
+/***********************************************************************************************************************************
+Created Payments table to record loan payments made by customers by linking loans and employees processing them.
+*************************************************************************************************************************************/
+
+Create Table Payments
+(
+    Loan_PaymentID        Int                Primary Key         Identity(1,1),
+    Loan_ID               Int    Not Null    Foreign Key References Loans(Loan_ID),
+    Emp_ID                Int    Not Null    Key References Emp(Emp_ID),
+    Loan_PaidAmt          Money  Not Null    Check (Loan_PaidAmt > 0),
+    Loan_PaidDate         Date   Not Null
+)
+
+select*from Payments 
+
+INSERT INTO Payments (Loan_ID, Emp_ID, Loan_PaidAmt, Loan_PaidDate)
+VALUES
+( 1, 1, 4800, '2024-02-01'),
+( 1, 1, 5200, '2024-03-01'),
+( 2, 2, 5200, '2024-03-01'),
+( 2, 2, 5500, '2024-04-01'),
+( 3, 3, 10000, '2024-04-15'),
+( 3, 3, 12000, '2024-05-15'),
+( 4, 1, 2300, '2024-02-10'),
+( 5, 2, 3500, '2024-03-20'),
+( 6, 3, 5000, '2024-05-05'),
+( 6, 3, 4800, '2024-06-05'),
+( 7, 1, 5600, '2024-07-01'),
+( 8, 2, 3000, '2024-07-15'),
+( 9, 3, 4500, '2024-08-01'),
+( 10, 1, 2100, '2024-08-10'),
+( 11, 2, 4700, '2024-08-20'),
+( 12, 3, 4800, '2024-09-01'),
+( 13, 1, 4300, '2024-09-10'),
+(14, 2, 3800, '2024-09-15'),
+( 15, 3, 6200, '2024-10-01'),
+( 16, 1, 3000, '2024-10-10');
+
+/**********************************************************************************************************************************
+creating insurance table
+************************************************************************************************************************************/
+
+Create Table Insurance 
+(
+    Ins_ID              Int                          Primary Key,
+    Loan_ID             Int            Not Null      Foreign Key  References Loans(Loan_ID),
+    Ins_Provider        Varchar(50)    Not Null,
+    Policy_No           Varchar(25)    Not Null      Unique,
+    Coverage_Amt        Money          Not Null,
+    Policy_StartDate    Date           Not Null,
+    Policy_EndDate      Date           Not Null,
+)
+
+select* from Insurance
+
+/***********************************************************************************************************************************
+************************************************************************************************************************************
+/* ------------------------------------------------------------------------------------------------------------------------
+  1.list customers names with highest loan amount from each branch and loan amount. 
+ -----------------------------------------------------------------------------------------------------------------------*/
+  METHOD 1:-
+  select cust_id,cust_fstname, LoanPrin_Amt,brid
+  from
+  (select cust_fstname, br.Cust_ID, LoanPrin_Amt,brid, DENSE_RANK() over( partition by brid order by loanprin_amt desc)  as tt
+  from loans as lo join Customers as br
+  on lo.cust_id = br.Cust_ID) as k
+  where tt = 1
+
+  METHOD 2:-                        
+    select LoanPrin_Amt as [highest loan amt], Cust_FstName as [customer name], BRID			
+    from loans as lo join Customers as cu			
+    on lo.Cust_ID = cu.Cust_ID			
+    where LoanPrin_Amt in   (  select max(loanprin_amt)			
+                                from loans as lo join customers as cu
+                                on lo.Cust_ID = cu.Cust_ID 
+                                group by BRID
+                              ) 
+    group by BRID,LoanPrin_Amt, Cust_FstName	
+    ----------------------------------------------------
+  |  highest loan amt	  |  customer name	  |    BRID  |
+  | ----------------------------------------------------
+  |  110000.00            |       Kushal	   |     BR1  |       
+  |  100000.00	          |       Bharat	   |     BR2  |       
+  |  100000.00	          |       Vikas	           |     BR2  |       
+  |  50000.00	          |       Bhavani          |     BR3  |       
+  |  85000.00	          |       Srinivas	   |     BR4  |       
+  |  90000.00	          |       Sunitha	   |     BR5  |
+  -------------------------------------------------------
+
+/***************************************************************************************************************************
+  2. list customers name and what loan they have taken in branch 2 ?
+****************************************************************************************************************************
+
+
+         select  group_id, cust_fstname
+         from customers
+         where BRID='BR2'
+         group by group_id,Cust_fstname
+
+         ------------------------------
+        |    group_id   |	cust_id    |
+         ------------------------------
+        |      BL       | 	  Bharat    |
+        |      HL       |	  Meena     |
+        |      HL       |	  Anuska    |   
+        |      BL       |	  Vikas     |
+        ================================
+
+/*******************************************************************************************************************************
+    3. how many customers are there for each groupe?
+*******************************************************************************************************************************/
+
+      select  group_id, count( cust_id ) as [no of customers]
+      from customers
+      group by group_id
+
+     -----------------------------
+     | group_id | no of customers |
+     -----------------------------
+     |    AL    |    	4         |
+     |    BL    |    	4         |
+     |    EL    |    	4         |
+     |    HL    |    	4         |
+     |    PL    |    	4         |
+     -----------------------------
+/**********************************************************************************************************************************
+  4. list total loan amount paid for all three loan types by the bank?
+*********************************************************************************************************************************/
+
+     select (loantype_id) as [loan type], sum(loanPrin_amt) as [total loan amount]
+     from loans
+     group by loantype_id
+    ------------------------------------
+    | loan type	        | total loan amount |
+    |---------------------------------      |
+    |     1	        |    285000.00      |
+    |     2	        |    267000.00      |
+    |     3	        |    525000.00      |
+    ---------------------------------
+  *************************************************************************************************************************************
+5. List customer who have taken a loan of more than 50000 in branches 2 and 3.
+ ***********************************************************************************************************************************
+   
+    select Cust_FstName, Brid
+    from
+    customers as cu join loans as lo
+    on cu.Cust_ID = lo.Cust_ID
+    where Loan_Amt > 30000 and BRID = 'br2' OR BRID ='br3'
+
+      -----------------------------
+      |   Cust_FstName   |   Brid   |
+      -----------------------------
+      |     Bharat       |   BR2    |      
+      |     Raghu        |   BR3    |   
+      |     Bhavani      |   BR3    |    
+      |     Sandhya      |   BR3    |
+        ----------------------------
