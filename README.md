@@ -23,7 +23,7 @@ AUTHOR - Jeet Patel
 
 DATE - 20 September 2025 - continuing
 
-SQL QUERIES - ( joins, datetime, aggregates, clause - where, group by, order by )
+SQL QUERIES - ( CTE,joins, datetime, aggregates, clause - where, group by, order by )
 
 Power BI - Screenshot
 
