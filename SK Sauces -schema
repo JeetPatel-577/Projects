@@ -246,11 +246,11 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
 	|	month Name	|	total qty	|
 	---------------------------------
 	|	May			|		1200	|
-	|	June		|		9800	|
+	|	June		|		12500	|
 	|	July		|		7200	|
-	|	August		|		7800	|
+	|	August		|		9300	|
 	|	September	|		9100	|
-	|	October		|		6300	|
+	|	October		|		10600	|
 	|	November	|		5250	|
-	|	December	|		4970	|
+	|	December	|		6670	|
     ----------------------------------
