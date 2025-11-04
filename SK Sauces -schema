@@ -195,7 +195,7 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
   select*from production
 
  /**********************************************************************************************************************************
- find highest Quantity ordered and the productid.
+ 1. find highest Quantity ordered and the productid.
  *******************************************************************************************************************/
 	with my_cte
 	as  ( select max(order_qty) as highestorder,Cust_ID, Prod_ID,Order_ID
@@ -212,7 +212,7 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
 
 
 /************************************************************************************************************************************
- 1. list product and customer names who have ordered more than 1000 units in August of 2024.
+ 2. list product and customer names who have ordered more than 1000 units in August of 2024.
 ****************************************************************************************************************************/
 	select Cust_Name, Prod_Name, sum(order_qty) as [total qty]
 	from 
@@ -233,7 +233,7 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
 	-----------------------------------------------------------------
 
 /****************************************************************************************************************************
-  2. How much qty was ordered month wise in year 2024?
+  3. How much qty was ordered month wise in year 2024?
 *************************************************************************************************************************/
 	select*from orders
 
