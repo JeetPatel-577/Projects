@@ -94,7 +94,7 @@
   insert into Orders (Order_ID, Prod_ID, Cust_ID, Order_date, Dispat_date, Order_Qty, Unit_Cost) values 																	
   (1,'KD05MSS',2,'2024-05-24','2024-05-27',1200,10),																	
   (2,'KD02CHS',10,'2024-06-01','2024-06-02',2000,5),																	
-  (3,'KD01CS',5,'2024-06-04','2024-06-06',3200,11),																	
+  (3,'KD01CS',5,'2024-06-04','2024-06-06',4400,11),																	
   (4,'KD06MHS',10,'2024-06-12','2024-06-17',2300,7),																	
   (5,'KD04HIC',8,'2024-06-20','2024-06-21',600,12),																	
   (6,'KD03PS',7,'2024-06-27','2024-06-29',3200,6),																	
@@ -194,7 +194,24 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
   commit
   select*from production
 
- /************************************************************************************************************************************
+ /**********************************************************************************************************************************
+ find highest Quantity ordered and the productid.
+ *******************************************************************************************************************/
+	with my_cte
+	as  ( select max(order_qty) as highestorder,Cust_ID, Prod_ID,Order_ID
+			from orders
+			group by cust_id, Prod_ID,Order_ID )
+								select highestorder, Prod_ID, Cust_ID,order_id
+								from mycte
+								where highestorder = ( select max(highestorder) from mycte)
+         
+			--------------------------------------
+			|	highestorder |	Prod_ID |	Cust_ID	|
+			|	4400 		 |	KD01CS 	|		5	|
+			--------------------------------------
+
+
+/************************************************************************************************************************************
  1. list product and customer names who have ordered more than 1000 units in August of 2024.
 ****************************************************************************************************************************/
 	select Cust_Name, Prod_Name, sum(order_qty) as [total qty]
