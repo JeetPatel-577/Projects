@@ -196,7 +196,6 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
 
  /************************************************************************************************************************************
  1. list product and customer names who have ordered more than 1000 units in August of 2024.
-    list with the the highest amount of units ordered.
 ****************************************************************************************************************************/
 	select Cust_Name, Prod_Name, sum(order_qty) as [total qty]
 	from 
