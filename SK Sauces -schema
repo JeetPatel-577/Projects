@@ -195,7 +195,26 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
   select*from production
 
  /**********************************************************************************************************************************
- 1. find highest Quantity ordered and the productid.
+ 1. Stored Procedure to get customer order details with constraint
+ *******************************************************************************************************************/
+proc [dbo].[usp_getcustdetails]
+(
+	@cust_id	int
+)
+as
+begin
+		if 	exists ( select * from Orders where Cust_ID = @cust_id )
+			begin
+					select *from Orders
+					where Cust_ID = @cust_id
+			end
+					else
+					print ' invalid id'
+end	
+go
+
+ /**********************************************************************************************************************************
+ 2. find highest Quantity ordered and the productid.
  *******************************************************************************************************************/
 	with my_cte
 	as  ( select max(order_qty) as highestorder,Cust_ID, Prod_ID,Order_ID
@@ -204,7 +223,7 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
 								select highestorder, Prod_ID, Cust_ID,order_id
 								from mycte
 								where highestorder = ( select max(highestorder) from mycte)
-         
+     go    
 			--------------------------------------
 			|	highestorder |	Prod_ID |	Cust_ID	|
 			|	4400 		 |	KD01CS 	|		5	|
@@ -212,7 +231,7 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
 
 
 /************************************************************************************************************************************
- 2. list product and customer names who have ordered more than 1000 units in August of 2024.
+ 3. list product and customer names who have ordered more than 1000 units in August of 2024.
 ****************************************************************************************************************************/
 	select Cust_Name, Prod_Name, sum(order_qty) as [total qty]
 	from 
@@ -224,6 +243,7 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
 	group by Cust_Name, Prod_Name
 	having sum(Order_Qty) >1000
 	order by [total qty] desc
+    go
 	----------------------------------------------------------------
 	|	Cust_Name		|		Prod_Name			|	total qty	|
 	-----------------------------------------------------------------
@@ -233,7 +253,7 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
 	-----------------------------------------------------------------
 
 /****************************************************************************************************************************
-  3. How much qty was ordered month wise in year 2024?
+  4. How much qty was ordered month wise in year 2024?
 *************************************************************************************************************************/
 	select*from orders
 
@@ -242,6 +262,7 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
 	where order_date between '2024-01-01' and  '2024-12-31'
 	group by  datename(mm,order_date),datepart(mm,order_date)
 	order by datepart(mm,order_date) asc
+	go
 	---------------------------------
 	|	month Name	|	total qty	|
 	---------------------------------
