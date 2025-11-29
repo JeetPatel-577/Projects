@@ -9,7 +9,7 @@ Let’s connect, learn, and grow together,
 
 💻 TECH STACK;
 
-            MySQL - MicrosoftSQLServer  -  Adobe Premiere Pro  -   Power Bi  -  Excel  -  Basic Python -
+            SQL server - T-SQL -  MicrosoftSQLServer  -  Adobe Premiere Pro  -   Power Bi  -  Excel  -  Basic Python -
 ________________________________________
 MY PROJECTS
 ________________________________________
@@ -23,7 +23,7 @@ AUTHOR - Jeet Patel
 
 DATE - 20 September 2025 - continuing
 
-SQL QUERIES - ( CTE, joins, datetime, aggregates, clause - where, group by, order by )
+SQL QUERIES - ( Stored Procedures, Views , CTE, joins, datetime, aggregates, clause - where, group by, order by )
 
 Power BI - Screenshot
 
@@ -49,7 +49,7 @@ Created by : Jeet Patel, Vikas Patel (Group project)
 
 Date : June 3th, 2025
 
-SQL QUERIES - 4 ( DENSE(), PARTITION(), sub queries, join query )
+SQL QUERIES - 4 ( Stored Procedure, Views, DENSE(), PARTITION(), sub queries, join query )
 
 Power BI - Screenshot
 
