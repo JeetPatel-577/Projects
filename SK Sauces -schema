@@ -197,7 +197,7 @@ insert into production (Production_No,Order_id,Prod_id,Cust_id,Prod_date,Prod_qt
  /**********************************************************************************************************************************
  1. Stored Procedure to get customer order details with constraint
  *******************************************************************************************************************/
-proc [dbo].[usp_getcustdetails]
+proc [dbo].[usp_get_cust_order_details]
 (
 	@cust_id	int
 )
